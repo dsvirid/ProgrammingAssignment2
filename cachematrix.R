@@ -1,7 +1,8 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Those functions compute the inverse of a matrix and put it into a special object 
+## "matrix" which can cache the inverse. Recalculation of invers happens only if 
+## matrix has been changed 
 
-## This function creates a special "matrix" object that can cache the inverse 
+## This function creates a special "matrix" object that can cache the inverse
 ## of input matrix.
 
 makeCacheMatrix <- function(x = matrix()) {
@@ -20,8 +21,16 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## This function computes the inverse of the special "matrix" returned by 
 ## makeCacheMatrix above. If the inverse has already been calculated (and the matrix 
-## has not changed), then the cachesolve() retrieve the inverse from the cache.
+## has not changed), then the cacheSolve() retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-
+  inverse <- x$getInverse()
+  if(!is.null(inverse)) {
+    message("getting cached data")
+    return(inverse)
+  }  
+  data <- x$get()
+  inverse <- solve(data, ...)
+  x$setInverse(inverse)
+  inverse
 }
